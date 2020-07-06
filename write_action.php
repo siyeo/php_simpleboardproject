@@ -36,7 +36,7 @@
 	//FILES은 앞에 선언해준 [enctype='multipart/form-data] 로 인한 임의의 변수
 	$file = $_FILES['image'];
 
-	$upload_directory = './data';
+	$upload_directory = './data/';
 	//확장자 범위 선정
 	$ext_str = "hwp,xls,doc,xlsx,docx,pdf,jpg,gif,png,txt,ppt,pptx";
 	//위의 확장자를 ,단위로 나눔 explode : 문자열을 나눔
@@ -66,18 +66,18 @@
 	//move_uploaded_file : 업로드 된 파일을 새로운 위치로 이동
 	if(move_uploaded_file($file['tmp_name'], $upload_directory.$path)) {
 		//images 쿼리문
-		$query = "INSERT INTO images( idx,image_name,image_url,thumbnail) VALUES(?,?,?, 0)";
+		$query = "INSERT INTO images( idx,image_name,image_url,image_randomname,thumbnail) VALUES(?,?,?,?,?)";
 		//위의 board쿼리로 보낸 정보의 idx를 가져옴
 		$idx = mysqli_insert_id($connect);
 
 		$image_name = $file['name'];
-		$image_path = $upload_directory. '/' .$image_name;
+		$image_path = $upload_directory.$image_name;
 
 		
 		//실행을 위한 sql문 준비
 		$stmt = mysqli_prepare($connect, $query);
 		//변수를 준비된 명령문에 매개변수로 바인드 : true가 성공
-		$bind = mysqli_stmt_bind_param($stmt, "sss", $idx, $image_name, $image_path);
+		$bind = mysqli_stmt_bind_param($stmt, "ssssi", $idx, $image_name, $image_path, $path,$thumbnail);
 		//준비된 퀴리문 실행
 		$exec = mysqli_stmt_execute($stmt);
 
@@ -94,9 +94,8 @@
 
 	} else {
 
-	echo "<h3>파일이 업로드 되지 않았습니다.</h3>";
-
-
+		echo "<h3>파일이 업로드 되지 않았습니다.</h3>";
+	
 	}
 
 	/* 이미지 thumbnail 선택 */
@@ -105,7 +104,7 @@
 
 		if($thumbnail_id != "first"){
 
-		$thumbnail_query = "update images set thumbnail =1 where image_id = '".$thumbnail_id."'";
+		$thumbnail_query = "update images set thumbnail =1 where image_idx = '".$thumbnail_id."'";
 
 		$thumbnail_stmt = $connect->prepare($thumbnail_query);
 

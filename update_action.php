@@ -12,7 +12,7 @@
 	}
 
 	if(isset($_POST['del_image'])){			//del_image
-	$del_image_id = $_POST['del_image']; 
+	$del_image_idx = $_POST['del_image']; 
 	}
 							
 	//등록이 완료되면 보여줄 페이지
@@ -44,9 +44,9 @@
 
 	/* 이미지 삭제 */
 
-	if(isset($del_image_id)){
+	if(isset($del_image_idx)){
 
-		$image_del_query = "delete from images where image_id = '".$del_image_id."'";
+		$image_del_query = "delete from images where image_idx = '".$del_image_idx."'";
 
 		$image_del_stmt = $connect->prepare($image_del_query);
 
@@ -99,7 +99,7 @@
 
 			if($thumbnail_id != "first"){
 				//images 쿼리문
-				$query = "INSERT INTO images( idx,image_name,image_url) VALUES(?,?,?)";
+				$query = "INSERT INTO images( idx,image_name,image_url,image_randomname) VALUES(?,?,?,?)";
 
 				$image_name = $file['name'];
 				$image_path = $upload_directory. '/' .$image_name;
@@ -108,7 +108,7 @@
 				$stmt = mysqli_prepare($connect, $query);
 
 				//변수를 준비된 명령문에 매개변수로 바인드 : true가 성공
-				$bind = mysqli_stmt_bind_param($stmt, "sss", $idx, $image_name, $image_path);
+				$bind = mysqli_stmt_bind_param($stmt, "ssss", $idx, $image_name, $image_path, $file['tmp_name']);
 				//준비된 퀴리문 실행
 				$exec = mysqli_stmt_execute($stmt);
 
@@ -116,7 +116,7 @@
 
 			}else{
 				//images 쿼리문
-				$query = "INSERT INTO images( idx,image_name,image_url,thumbnail) VALUES(?,?,?,1)";
+				$query = "INSERT INTO images( idx,image_name,image_url,image_randomname,thumbnail) VALUES(?,?,?,?,1)";
 
 				$image_name = $file['name'];
 				$image_path = $upload_directory. '/' .$image_name;
@@ -125,7 +125,7 @@
 				$stmt = mysqli_prepare($connect, $query);
 
 				//변수를 준비된 명령문에 매개변수로 바인드 : true가 성공
-				$bind = mysqli_stmt_bind_param($stmt, "sss", $idx, $image_name, $image_path);
+				$bind = mysqli_stmt_bind_param($stmt, "ssss", $idx, $image_name, $image_path, $file['tmp_name']);
 				//준비된 퀴리문 실행
 				$exec = mysqli_stmt_execute($stmt);
 
@@ -150,7 +150,7 @@
 
 		if($thumbnail_id != "first"){
 
-		$thumbnail_query = "update images set thumbnail =1 where image_id = '".$thumbnail_id."'";
+		$thumbnail_query = "update images set thumbnail =1 where image_idx = '".$thumbnail_id."'";
 
 		$thumbnail_stmt = $connect->prepare($thumbnail_query);
 
@@ -173,7 +173,7 @@
 ?>                
 		<script>
 			alert("<?php echo "글이 수정되었습니다."?>");
-		 //  location.replace("<?php echo $URL?>");
+			location.replace("<?php echo $URL?>");
 		</script> 
 					
 <?php

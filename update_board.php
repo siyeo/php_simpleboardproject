@@ -5,6 +5,21 @@
 	<meta charset = 'utf-8'>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+
+	<script>
+		$(function check(){
+			$("input[type=submit]").click(function(){
+				var result = $("input[type=text]").val();
+				if(!result){
+					alert("입력하세요");
+					return false;
+				}else{
+					return true;
+				}
+			});	
+		});
+	</script>
 </head>
 <style>
 	table.table2{
@@ -48,7 +63,6 @@
  
 </style>
 <body>
-
 	<?php
 		$db  = "mysql:host=localhost; port=3306;dbname=post;charset=utf8";
 
@@ -71,7 +85,7 @@
 					$result = $stmt->fetch();
 	?>
 
-	<form name = "check" method = "post" action = "update_action.php" enctype='multipart/form-data'>
+	<form name = "check" method = "post" action = "update_action.php" enctype='multipart/form-data' onsubmit="return check()">
 		<input type="hidden" name='idx' value="<?php echo $result['idx'];?>">
 		<table  style="padding-top:50px" align = center width=700 border=0 cellpadding=2 >
 			<tr>
@@ -112,12 +126,12 @@
 									
 								foreach($image_result as $image){
 
-									$image_id = $image['image_id'];
+									$image_idx = $image['image_idx'];
 
 								?>
 								<td width = 50><?= $image['image_name'] ?></td>
-								<td><input type="checkbox" name="del_image" value="<?= $image_id ?>">삭제</td>
-								<td><input type="radio" name="thumbnail" value="<?= $image_id ?>">썸네일</td>
+								<td><input type="checkbox" name="del_image" value="<?= $image_idx ?>">삭제</td>
+								<td><input type="radio" name="thumbnail" value="<?= $image_idx ?>">썸네일</td>
 									
 								<?php
 								}
