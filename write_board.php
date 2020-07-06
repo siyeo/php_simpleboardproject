@@ -2,20 +2,18 @@
  
 <html>
 <head>
-        <meta charset = 'utf-8'>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta charset = 'utf-8'>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-		<script>
+	<script>
 		$(function(){
 			$("input[type=submit]").click(function(){
 				var result = $("input[type=text]").val();
 				if(!result){
 					alert("입력하세요");
 				}
-
-			});
-				
+			});	
 		});
 
 		// wait for document to load
@@ -35,10 +33,9 @@
 			  denied:'Invalido arquivo de tipo $ext!' 
 			} 
 		  });
-
 		});
 
-		</script>
+	</script>
 </head>
 <style>
         table.table2{
@@ -66,49 +63,43 @@
 </style>
 <body>
 
-		
+	<form id ="write_form" method = "post" action = "write_action.php" enctype='multipart/form-data'>
+	<table  style="padding-top:50px" align = "center" width=700 border=0 cellpadding=2 >
+		<tr>
+			<td height=20 align= center bgcolor=#ccc><font color=white> 글쓰기 </font></td>
+		</tr>
+		<tr>
+			<td bgcolor=white>
+				<table class = "table2">
+					<tr>
+						<td >작성자</td>
+						<td><input type = "text" name = 'author' size=20> </td>
+					</tr>
 
+					<tr>
+						<td >제목</td>
+						<td><input type = "text" name = 'title' size=60></td>
+					</tr>
 
-        <form id ="write_form" method = "post" action = "write_action.php" enctype='multipart/form-data'>
-        <table  style="padding-top:50px" align = "center" width=700 border=0 cellpadding=2 >
-                <tr>
-                <td height=20 align= center bgcolor=#ccc><font color=white> 글쓰기 </font></td>
-                </tr>
-                <tr>
-                <td bgcolor=white>
-                <table class = "table2">
-                        <tr>
-                        <td >작성자</td>
-                        <td><input type = "text" name = 'author' size=20> </td>
-                        </tr>
- 
-                        <tr>
-                        <td >제목</td>
-                        <td><input type = "text" name = 'title' size=60></td>
-                        </tr>
+					<tr>
+						<td >내용</td>
+						<td><textarea name = "context" cols=85 rows=15></textarea></td>
+					</tr>
 
-                        <tr>
-                        <td >내용</td>
-                        <td><textarea name = "context" cols=85 rows=15></textarea></td>
-                        </tr>
-
-						<tr>
-                        <td >이미지</td>
-                        <td><input type="file" name="image" id="image" value=""></td>
+					<tr>
+						<td >이미지</td>
+						<td><input type="file" name="image" id="image" value=""></td>
 						<td >썸네일</td>
 						<td ><input type="checkbox" name="thumbnail" value="1"></td>
-                        </tr>
-						</table>
-
-			
-
-								<center>
-								<input type = "submit" value="작성">
-								</center>
-					</td>
 					</tr>
-        </table>
-        </form>
+				</table>
+				<center>
+				<input type = "submit" value="작성">
+				</center>
+			</td>
+		</tr>
+    </table>
+    </form>
 
 	
 
