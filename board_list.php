@@ -110,7 +110,7 @@
 						<div class = "image" >
 							<div><img src="
 									<?php 
-										if($image_result && ($image_result["idx"] == $a["idx"]) && $image_result["thumbnail"] == 1 ){
+										if($image_result && ($image_result["idx"] == $a["idx"])){
 											
 											echo $image_result["image_url"];
 

@@ -66,18 +66,18 @@
 	//move_uploaded_file : 업로드 된 파일을 새로운 위치로 이동
 	if(move_uploaded_file($file['tmp_name'], $upload_directory.$path)) {
 		//images 쿼리문
-		$query = "INSERT INTO images( idx,image_name,image_url,image_randomname,thumbnail) VALUES(?,?,?,?,?)";
+		$query = "INSERT INTO images( idx,image_name,image_url,thumbnail) VALUES(?,?,?,?)";
 		//위의 board쿼리로 보낸 정보의 idx를 가져옴
 		$idx = mysqli_insert_id($connect);
 
 		$image_name = $file['name'];
-		$image_path = $upload_directory.$image_name;
+		$image_path = $upload_directory.$path;
 
 		
 		//실행을 위한 sql문 준비
 		$stmt = mysqli_prepare($connect, $query);
 		//변수를 준비된 명령문에 매개변수로 바인드 : true가 성공
-		$bind = mysqli_stmt_bind_param($stmt, "ssssi", $idx, $image_name, $image_path, $path,$thumbnail);
+		$bind = mysqli_stmt_bind_param($stmt, "sssi", $idx, $image_name, $image_path,$thumbnail);
 		//준비된 퀴리문 실행
 		$exec = mysqli_stmt_execute($stmt);
 

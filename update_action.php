@@ -70,7 +70,7 @@
 		//FILES은 앞에 선언해준 [enctype='multipart/form-data] 로 인한 임의의 변수
 		$file = $_FILES['image'];
 
-		$upload_directory = './data';
+		$upload_directory = './data/';
 		//확장자 범위 선정
 		$ext_str = "pdf,jpg,gif,png";
 		//위의 확장자를 ,단위로 나눔 explode : 문자열을 나눔
@@ -99,16 +99,16 @@
 
 			if($thumbnail_id != "first"){
 				//images 쿼리문
-				$query = "INSERT INTO images( idx,image_name,image_url,image_randomname) VALUES(?,?,?,?)";
+				$query = "INSERT INTO images( idx,image_name,image_url) VALUES(?,?,?)";
 
 				$image_name = $file['name'];
-				$image_path = $upload_directory. '/' .$image_name;
+				$image_path = $upload_directory.$path;
 				
 				//실행을 위한 sql문 준비
 				$stmt = mysqli_prepare($connect, $query);
 
 				//변수를 준비된 명령문에 매개변수로 바인드 : true가 성공
-				$bind = mysqli_stmt_bind_param($stmt, "ssss", $idx, $image_name, $image_path, $file['tmp_name']);
+				$bind = mysqli_stmt_bind_param($stmt, "sss", $idx, $image_name, $image_path);
 				//준비된 퀴리문 실행
 				$exec = mysqli_stmt_execute($stmt);
 
@@ -116,16 +116,16 @@
 
 			}else{
 				//images 쿼리문
-				$query = "INSERT INTO images( idx,image_name,image_url,image_randomname,thumbnail) VALUES(?,?,?,?,1)";
+				$query = "INSERT INTO images( idx,image_name,image_url,thumbnail) VALUES(?,?,?,1)";
 
 				$image_name = $file['name'];
-				$image_path = $upload_directory. '/' .$image_name;
+				$image_path = $upload_directory.$path;
 				
 				//실행을 위한 sql문 준비
 				$stmt = mysqli_prepare($connect, $query);
 
 				//변수를 준비된 명령문에 매개변수로 바인드 : true가 성공
-				$bind = mysqli_stmt_bind_param($stmt, "ssss", $idx, $image_name, $image_path, $file['tmp_name']);
+				$bind = mysqli_stmt_bind_param($stmt, "sss", $idx, $image_name, $image_path);
 				//준비된 퀴리문 실행
 				$exec = mysqli_stmt_execute($stmt);
 
