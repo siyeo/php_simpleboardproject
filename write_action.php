@@ -20,6 +20,7 @@
 			values( '$author','$title', '$context', '$date', 1)";
 		   
 	//$query = mysqli_query($connect, $sqlLine)or die(mysqli_error($sonnect));
+	//mysqli는 절차 지향과 객체지향 둘 다 지원
 
 
 	//쿼리문 db로 날리기
@@ -102,18 +103,12 @@
 
 		if(isset($thumbnail_id)){
 
-		if($thumbnail_id != "first"){
-
-		$thumbnail_query = "update images set thumbnail =1 where image_idx = '".$thumbnail_id."'";
-
-		$thumbnail_stmt = $connect->prepare($thumbnail_query);
-
-		//$image_stmt->bindParam($id, $a["idx"], PDO::PARAM_INT);
-
-		$thumbnail_stmt->execute();
-
-		$thumbnail_result = $thumbnail_stmt ->fetch();
-
+			if($thumbnail_id != "first"){
+				$thumbnail_query = "update images set thumbnail =1 where image_idx = '".$thumbnail_id."'";
+				$thumbnail_stmt = $connect->prepare($thumbnail_query);
+				//$image_stmt->bindParam($id, $a["idx"], PDO::PARAM_INT);
+				$thumbnail_stmt->execute();
+				$thumbnail_result = $thumbnail_stmt ->fetch();
 			}
 		}
 

@@ -73,7 +73,7 @@
 
 						$query ="select idx,title from board where open = 1";
 
-
+						//SQL을 미리 데이터베이스에서 컴파일하고 파라미터 값만 바꿔서 처리 -> 쿼리 성능을 올림
 						if ($stmt = $connect->prepare($query)){
 
 						
@@ -90,12 +90,13 @@
 								
 
 						/* fetch values */
+						//FOREACH 인자로 들어온 itrable-item 내부 인덱스 끝까지 알아서 순환
 						foreach($result as $a) {
-							
+							//query 안에 param ':변수이름' 
 							$image_query = "select * from images where idx = :idx and thumbnail = 1";
 
 							$image_stmt = $connect->prepare($image_query);
-
+							//SQL Injection 방어
 							$image_stmt->bindParam(':idx', $a["idx"], PDO::PARAM_INT);
 
 							$image_stmt->execute();
@@ -121,6 +122,7 @@
 									</img>
 							</div>
 						</div>
+						<!--html 되도록 id는 한개만 사용 대부분 class를 사용 -->
 						<div class ="title" style="display: inline-block">
 							<div><?php echo $a["title"] ?></div>
 						</div>
